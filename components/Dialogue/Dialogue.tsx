@@ -1,11 +1,13 @@
-import { useEffect, useRef, useState } from 'react'
+import { motion, useAnimation, Variant, Variants } from 'framer-motion'
+import { forwardRef, useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
+import { v4 as uuidv4 } from 'uuid'
 
 const Box = styled.div`
   width: 500px;
-  height: 200px;
+  height: 300px;
   border: 6px solid #fffeff;
-  padding: 3%;
+  padding: 24px;
 `
 
 const DialogueContainer = styled.div`
@@ -16,7 +18,7 @@ const DialogueContainer = styled.div`
   margin-bottom: 24px;
 `
 
-const Text = styled.div`
+const Text = styled(motion.div)`
   position: relative;
   display: block; 
   padding: 0;
@@ -37,39 +39,66 @@ const Text = styled.div`
   }
 `
 
-const destination = `This is a event! more text about nothing and everything`
+const Letter = styled(motion.span)`
+  
+`
 
 export const Dialogue = () => {
   const [text, setText] = useState('')
 
-  const refNextLetterIndex = useRef(1)
-  useEffect(() => {
-    if(refNextLetterIndex.current > destination.length) { return }
+  const [destination, setDestination] = useState({
+    uniqKey: 'some-key',
+    message: 'This is a event! more text about nothing and everything'
+  })
 
-    const timeout = setTimeout(() => {
-      setText(destination.slice(0, refNextLetterIndex.current))
-      refNextLetterIndex.current++
-    }, 30)
+  useEffect(() => {
+    const t = setTimeout(()=>{
+      setDestination({
+        uniqKey: 'some-other-key',
+        message: 'Hello from the magic tavern!'
+      })
+    }, 4000)
 
     return () => {
-      console.log('clear timeout')
-      clearInterval(timeout)
+      clearTimeout(t)
     }
-  }, [text])
+  }, [])
 
-  const handleReset = () => {
-    setText('')
-    refNextLetterIndex.current = 1
-  }
+  const control = useAnimation()
+  // TODO: Redundant for now.
+  const letters = useMemo(() => {
+    const { uniqKey, message } = destination
+    return message.split('').map((l, i) => {
+      return (
+        <Letter
+          key={`${uniqKey}-${i}`}
+          animate={control}
+          custom={i}
+        >
+          {l}
+        </Letter>
+      )
+    })
+  }, [destination, control])
+
+  useEffect(() => {
+    control.start(i => ({
+      opacity: [0,1],
+      transition: { delay: i * 0.04, duration: 0 },
+      onAnimationEnd: () => { console.log('thank god') }
+    })).then(() => {
+      console.log('all done')
+    })
+  }, [control, destination])
+
 
   return (
-    <Box onClick={handleReset}>
+    <Box>
       <DialogueContainer>
         <div>*&nbsp;</div>
 
         <Text>
-          <span className="shadow-text">{destination}</span>
-          <span className="text">{text}</span>
+          {letters}
         </Text>
       </DialogueContainer>
     </Box>
