@@ -1,1 +1,1 @@
-export * from './Dialogue'
+export * from './Dialogue/Dialogue'

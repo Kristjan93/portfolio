@@ -1,8 +1,8 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
-import { Dialogue } from '../components/Dialogue'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { Dialogue } from '../components/Dialogue'
 
 const Main = styled.main`
   min-height: 100vh;
@@ -11,16 +11,31 @@ const Main = styled.main`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #010001;
+  background-color: #010001;
 `
 
-const H1 = styled.h1`
-  margin: 0;
-  line-height: 1.15;
-  font-size: 4rem;
-`
+
+const dialogues: Array<Dialogue> = [
+  {
+    messages: [
+      [...'Up already, '.split(''), 300, ...'I see ?'.split(''), 400],
+      'Good to see you awake!'
+    ],
+    uniqKey: 'Weeeeeee'
+  },
+  {
+    messages: ['Here you will die :('],
+    uniqKey: 'meeee'
+  },
+]
 
 const Home: NextPage = () => {
+  const [index, setIndex] = useState(0)
+
+  const handleDialogueClick = () => {
+    setIndex((state) => (state + 1) % dialogues.length)
+  }
+
   return (
     <div>
       <Head>
@@ -30,12 +45,11 @@ const Home: NextPage = () => {
 
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <Main>
-        <H1>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </H1>
-        <Dialogue />
+        <Dialogue 
+          dialogue={dialogues[index]} 
+          onClick={handleDialogueClick} 
+        />
       </Main>
     </div>
   )
