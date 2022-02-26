@@ -1,17 +1,25 @@
 import { motion } from 'framer-motion'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
+import { Actions } from './components/Actions'
 import { Letter } from './components/Letter'
 import { StarText } from './components/StarText'
 
 const DEFAULT_LETTER_DELAY = 30 // ms
 
-const Box = styled.div`
+const Root = styled.div`
   width: 500px;
   height: 300px;
   border: 6px solid #fffeff;
   padding: 24px;
   background-color: #010001;
+`
+
+const Relative = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 100%;
 `
 
 
@@ -70,17 +78,34 @@ export const Dialogue = ({
   }
 
   return (
-    <Box onClick={onClick}>
-      {messages.map(({ message, totalDelay }, i) => (
-        <StarText key={`${uniqKey}-${i}`} delay={findDelay(i)}>
-          <div>*&nbsp;</div>
-            <Text>
-              {message.map(({ c, delay }, i) => {
-                return <Letter key={`${uniqKey}-${i}`} delay={delay}>{c}</Letter>
-              })}
-            </Text>
-        </StarText>
-      ))}
-    </Box>
+    <Root onClick={onClick}>
+      <Relative>
+        {messages.map(({ message, totalDelay }, i) => (
+          <StarText key={`${uniqKey}-${i}`} delay={findDelay(i)}>
+            <div>*&nbsp;</div>
+              <Text>
+                {message.map(({ c, delay }, i) => {
+                  return (
+                    <Letter 
+                      key={`${uniqKey}-${i}`} 
+                      delay={delay}
+                      >
+                        {c}
+                      </Letter>
+                  ) 
+                })}
+              </Text>
+          </StarText>
+        ))}
+
+        <Actions
+          uniqKey={uniqKey}
+          actions={[
+            [ { label: 'Spare' },{ label: 'Flee' } ],
+            [ { label: 'Mother' },{ label: 'Father' } ],
+        ]}
+        />
+      </Relative>
+    </Root>
   )
 }

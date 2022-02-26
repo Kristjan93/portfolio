@@ -14,7 +14,6 @@ const Main = styled.main`
   background-color: #010001;
 `
 
-
 const dialogues: Array<Dialogue> = [
   {
     messages: [
