@@ -12,24 +12,6 @@ const Root = styled.div`
 interface StarTextProps {
   delay?: number
 }
-export const StarText:React.FC<StarTextProps> = ({
-  children,
-  delay
-}) => {
-  const [show, setShow] = useState(delay ? false : true)
-
-  useEffect(() => {
-    if(!delay) { return }
-    const timeout = setTimeout(() => {
-      setShow(true)
-    }, delay)
-
-    return () => clearTimeout(timeout)
-  }, [delay])
-
-  if(show) {
-    return <Root >{children}</Root>
-  }
-
-  return null
+export const StarText:React.FC<StarTextProps> = ({ children }) => {
+  return <Root >{children}</Root>
 }

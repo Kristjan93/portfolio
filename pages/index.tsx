@@ -1,8 +1,10 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
-import { Dialogue } from '../components/Dialogue'
+import { Dialogue, DialogueAdjusted, useDialogue } from '../components/Dialogue'
+import { Dialogue as DialogueType } from '../components/Dialogue/hooks/useDialogue'
+
 
 const Main = styled.main`
   min-height: 100vh;
@@ -14,17 +16,19 @@ const Main = styled.main`
   background-color: #010001;
 `
 
-const dialogues: Array<Dialogue> = [
+const dialogues: Array<DialogueType> = [
   {
-    messages: [
-      [...'Up already, '.split(''), 300, ...'I see ?'.split(''), 400],
-      'Good to see you awake!'
+    key: 'Weeeeeee',
+    sentences: [
+      ['Up already, ', 300, 'I see ?', 100],
+      ['Good to see you awake!']
     ],
-    uniqKey: 'Weeeeeee'
   },
   {
-    messages: ['Here you will die :('],
-    uniqKey: 'meeee'
+    key: 'meeee',
+    sentences: [
+      ['Here you will die :(']
+    ],
   },
 ]
 
@@ -35,18 +39,19 @@ const Home: NextPage = () => {
     setIndex((state) => (state + 1) % dialogues.length)
   }
 
+  const d = useDialogue(dialogues)
+
   return (
     <div>
       <Head>
         <title>Create Next App</title>
         {/* TODO: find some fun description */}
         <meta name="description" content="The ghost that TODO" />
-
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Main>
         <Dialogue 
-          dialogue={dialogues[index]} 
+          dialogue={d}
           onClick={handleDialogueClick} 
         />
       </Main>
