@@ -20,7 +20,7 @@ const dialogues: Array<DialogueType> = [
   {
     key: 'Weeeeeee',
     sentences: [
-      ['Up already, ', 300, 'I see ?', 100],
+      ['Hello world, ', 300, 'My name is Kristján Patrekur', 400],
       ['Good to see you awake!']
     ],
   },

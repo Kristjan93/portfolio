@@ -6,6 +6,7 @@ const Root = styled.div`
   flex-direction: row;
   color: white;
   font-size: 2rem;
+  line-height: 1.25em;
   margin-bottom: 24px;
   width: 100%;
 `

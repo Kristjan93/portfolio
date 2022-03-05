@@ -1,13 +1,9 @@
 import styled, { css, keyframes } from "styled-components";
-
-const appear = keyframes`
-  from { opacity: 0; }
-  to { opacity: 1; }
-`;
+import { animationAppear } from "../animations/appear";
 
 const baseStyle = css`
   opacity: 0;
-  animation: ${appear} 0s linear forwards;
+  animation: ${animationAppear} 0s linear forwards;
 `
 const Span = styled.span`
   ${baseStyle}

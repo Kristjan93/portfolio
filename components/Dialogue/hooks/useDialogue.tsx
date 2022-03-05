@@ -30,7 +30,7 @@ export const useDialogue:useDialogue = (dialogueArg, keyArg) => {
   const dialogue = dialogueArg[activeIndex]
   const { key, sentences } = dialogue
 
-  // This is its own thing
+  // TODO: This is its own thing
   let delay = 0
   let sentenceAdjusted:SentenceAdjusted[] = []
   for(let ia = 0; ia < sentences.length; ia++) {

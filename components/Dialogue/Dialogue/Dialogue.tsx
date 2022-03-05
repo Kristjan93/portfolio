@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { DialogueAdjusted } from '../hooks/useDialogue'
 import { Actions } from './components/Actions'
 import { Letter } from './components/Letter'
+import { Star } from './components/Star'
 import { StarText } from './components/StarText'
 
 const Root = styled.div`
@@ -50,13 +51,13 @@ export const Dialogue = ({
       <Relative onAnimationEnd={handleAnimationEnd}>
         {sentences.map((sentence, i) => (
           <StarText key={`${key}-${i}`}>
-            <div>*&nbsp;</div>
+            <Star delay={sentence[0].delay} />
               <Text>
                 {sentence.map(({ c, delay }, i) => {
                   return (
                     <Letter 
                       key={`${key}-${i}`}
-                      delay={delay}
+                      delay={delay + 30}
                       >
                         {c}
                       </Letter>
